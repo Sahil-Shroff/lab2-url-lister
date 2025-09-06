@@ -3,7 +3,7 @@ Map extracted the hrefs using regex. Combiner combined the count for the keys (h
 
 note:- AI was used to generate regex patterns and debugging for dataproc environment
 
-/#	20
+\#	20
 /wiki/Doi_(identifier)	18
 /wiki/Google_File_System	6
 /wiki/ISBN_(identifier)	18
@@ -24,3 +24,5 @@ with 1 master and 2 workers
 with 1 master and 4 workers
 
 The real time and system time increase for the second one, but user time decreases.
+This may be explained by: increasing workers distributes the data processing workload per node, but increases overhead by adding in the time taken for data transfer between nodes and complexity for coordination and task scheduling. The increase in real time conveys the fact that the workload is so small that the distribution of it causes more harm by introducing various overheads.
+
