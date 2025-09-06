@@ -1,31 +1,29 @@
-USER=$(shell whoami)
+USER := $(shell whoami)
 
 ##
-## Configure the Hadoop classpath for the GCP dataproc enviornment
+## Configure the Hadoop classpath for the GCP dataproc environment
 ##
-
-HADOOP_CLASSPATH=$(shell hadoop classpath)
+HADOOP_CLASSPATH := $(shell hadoop classpath)
 
 UrlCount.jar: UrlCount.java
-	javac -classpath $(HADOOP_CLASSPATH) -d ./ UrlCount.java
-	jar cf UrlCount.jar UrlCount*.class	
+	javac -source 11 -target 11 -classpath $(HADOOP_CLASSPATH) -d ./ UrlCount.java
+	jar cf UrlCount.jar UrlCount*.class
 	-rm -f UrlCount*.class
 
-prepare:
-	-hdfs dfs -mkdir input
-	curl https://en.wikipedia.org/wiki/Apache_Hadoop > /tmp/input.txt
-	hdfs dfs -put /tmp/input.txt input/file01
-	curl https://en.wikipedia.org/wiki/MapReduce > /tmp/input.txt
-	hdfs dfs -put /tmp/input.txt input/file02
+prepare: filesystem
+	hdfs dfs -mkdir -p /user/$(USER)/input
+	curl -L https://en.wikipedia.org/wiki/Apache_Hadoop > /tmp/input.txt
+	hdfs dfs -put -f /tmp/input.txt /user/$(USER)/input/file01
+	curl -L https://en.wikipedia.org/wiki/MapReduce > /tmp/input.txt
+	hdfs dfs -put -f /tmp/input.txt /user/$(USER)/input/file02
 
 filesystem:
-	-hdfs dfs -mkdir /user
-	-hdfs dfs -mkdir /user/$(USER)
+	hdfs dfs -mkdir -p /user
+	hdfs dfs -mkdir -p /user/$(USER)
 
-run: UrlCount.jar
-	-rm -rf output
-	hadoop jar UrlCount.jar UrlCount input output
-
+run: UrlCount.jar prepare
+	-hdfs dfs -rm -r -f /user/$(USER)/output
+	hadoop jar UrlCount.jar UrlCount /user/$(USER)/input /user/$(USER)/output
 
 ##
 ## You may need to change the path for this depending
