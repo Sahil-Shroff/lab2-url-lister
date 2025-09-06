@@ -15,3 +15,6 @@ mw-data:TemplateStyles:r886049734	12
 Combiner issue:
 
 Comparison
+<img width="1674" height="519" alt="Screenshot 2025-09-05 195920" src="https://github.com/user-attachments/assets/7a6b096e-cae0-422f-bf22-9960cf7bfc2d" />
+
+<img width="1105" height="587" alt="Screenshot 2025-09-05 200750" src="https://github.com/user-attachments/assets/0b4c3d1c-561f-4c73-9e74-d922fa6d5082" />
